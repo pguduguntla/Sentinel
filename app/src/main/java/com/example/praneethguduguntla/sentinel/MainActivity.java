@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createUser(String email, String password, final String uName){
-        mAuth.createUserWithEmailAndPassword(email, password)
+        Task<AuthResult> users = mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
