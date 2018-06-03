@@ -58,7 +58,7 @@ public class SendAlert extends AppCompatActivity {
                 isSafe = true;
             }
         });
-
+//
         final EditText message = findViewById(R.id.messageText);
         DatabaseReference dr = FirebaseDatabase.getInstance().getReference();
 
