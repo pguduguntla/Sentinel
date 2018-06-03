@@ -1,5 +1,6 @@
 package com.example.praneethguduguntla.sentinel;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,58 +35,71 @@ public class SelectSchool extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_school);
 
+        final Test fileReadWrite = new Test();
+        fileReadWrite.read();
+
+        if(fileReadWrite.isLoggedIn()){
+
+        } else {
 
 
-        schools = findViewById(R.id.schoolList);
+            schools = findViewById(R.id.schoolList);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
-        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot userDataSnapshot : dataSnapshot.getChildren()){
-                    String user = userDataSnapshot.getValue().toString();
-                    users.add(user);
+            databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot userDataSnapshot : dataSnapshot.getChildren()){
+                        String user = userDataSnapshot.getValue().toString();
+                        users.add(user);
 
 //                    Toast.makeText(getApplicationContext(), users.toString(), Toast.LENGTH_SHORT).show();
 
-                }
-                ArrayAdapter adapter = new ArrayAdapter<String>(SelectSchool.this, android.R.layout.simple_list_item_1, users);
-                schools.setAdapter(adapter);
-
-                schools.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        index = i;
-                        String schoolSelected = users.get(i).toString();
-        //                Toast.makeText(getApplicationContext(), schoolSelected, Toast.LENGTH_SHORT).show();
-
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(SelectSchool.this);
-                        View mView = getLayoutInflater().inflate(R.layout.phone_number, null);
-                        final EditText phoneNumber = (EditText) mView.findViewById(R.id.phoneNumber);
-
-                        Button button =  mView.findViewById(R.id.submit);
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                databaseReference.child("phoneNumber").child(phoneNumber.getText().toString()).setValue(users.get(index).toString());
-                            }
-                        });
-
-                        mBuilder.setView(mView);
-                        AlertDialog dialog = mBuilder.create();
-                        dialog.show();
-
                     }
-                });
-            }
+                    ArrayAdapter adapter = new ArrayAdapter<String>(SelectSchool.this, android.R.layout.simple_list_item_1, users);
+                    schools.setAdapter(adapter);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    schools.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            index = i;
+                            String schoolSelected = users.get(i).toString();
+                            //                Toast.makeText(getApplicationContext(), schoolSelected, Toast.LENGTH_SHORT).show();
 
-            }
-        });
+                            AlertDialog.Builder mBuilder = new AlertDialog.Builder(SelectSchool.this);
+                            View mView = getLayoutInflater().inflate(R.layout.phone_number, null);
+                            final EditText phoneNumber = (EditText) mView.findViewById(R.id.phoneNumber);
+
+                            Button button =  mView.findViewById(R.id.submit);
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    databaseReference.child("phoneNumber").child(phoneNumber.getText().toString()).setValue(users.get(index).toString());
+                                    fileReadWrite.setLoggedIn(true);
+                                    fileReadWrite.setSchool(users.get(index).toString());
+
+                                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                    mainIntent.putExtra("isStudent", true);
+                                    startActivity(mainIntent);
+
+                                }
+                            });
+
+                            mBuilder.setView(mView);
+                            AlertDialog dialog = mBuilder.create();
+                            dialog.show();
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 //
 //        String[] listItems = new String[users.size()];
 //
@@ -107,5 +121,7 @@ public class SelectSchool extends AppCompatActivity {
 //        });
 
 //        Toast.makeText(getApplicationContext(), users.toString(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
