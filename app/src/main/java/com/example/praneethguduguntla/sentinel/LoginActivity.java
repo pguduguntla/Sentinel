@@ -1,5 +1,6 @@
 package com.example.praneethguduguntla.sentinel;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.sax.StartElementListener;
@@ -22,6 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.sql.Time;
+import java.util.Calendar;
+
 //
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,21 +50,26 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseUser user = mAuth.getCurrentUser();
 
-        if (user!=null) {
-           Intent i = new Intent(getApplicationContext(), MainActivity.class);
-           startActivity(i);
-        } else {
-            Button logInButton = (Button) findViewById(R.id.signUpButton);
-            logInButton.setOnClickListener(new View.OnClickListener() {
+//        if (user!=null) {
+//           Intent i = new Intent(getApplicationContext(), MainActivity.class);
+//           startActivity(i);
+//        } else {
+//
+//        }
+
+        Button logInButton = (Button) findViewById(R.id.signUpButton);
+        logInButton.setOnClickListener(new View.OnClickListener() {
 
 
-                @Override
-                public void onClick(View view) {
-                    createUser(emailField.getText().toString(), userPassword.getText().toString(), userName.getText().toString());
+            @Override
+            public void onClick(View view) {
+                createUser(emailField.getText().toString(), userPassword.getText().toString(), userName.getText().toString());
 
-                }
-            });
-        }
+
+
+
+            }
+        });
 
 
 
@@ -80,11 +90,22 @@ public class LoginActivity extends AppCompatActivity {
                             DatabaseReference myRef = database.getReference();
 
 
-                            myRef.child("users").child("" + i++).setValue(uName);
+                            myRef.child("users").child("" + i++).setValue(uName).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+
+                                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(i);
+                                    }
+                                }
+                            });
 
 
                             // Intent i = new Intent(LogInActivity.this, WeekViewTest.class);
                             //startActivity(i);
+
+                            Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
 
                         } else {
                             // If sign in fails, display a message to the user.
