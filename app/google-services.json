@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "172044471146",
+    "firebase_url": "https://sentinal-a0e88.firebaseio.com",
+    "project_id": "sentinal-a0e88",
+    "storage_bucket": "sentinal-a0e88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172044471146:android:e7f326f9f39fc817",
+        "android_client_info": {
+          "package_name": "com.example.praneethguduguntla.sentinel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172044471146-0bvdafet3suic7acgg9klak7tnamqbov.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "172044471146-0bvdafet3suic7acgg9klak7tnamqbov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAzuufBJO-M-I2-DW925QYmDRmDAQZMx0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
