@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,12 +19,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class SendAlert extends AppCompatActivity {
     int timeTouch = 0;
     private float[] lastTouchXY = new float[2];
     private DatabaseReference mDatabase;
-
-
+    private ArrayList<String> phones = new ArrayList<String>();
     String currSchool = "Cupertino High School";
 
     ImageView warn;
@@ -54,6 +58,33 @@ public class SendAlert extends AppCompatActivity {
                 isSafe = true;
             }
         });
+
+        final EditText message = findViewById(R.id.messageText);
+        DatabaseReference dr = FirebaseDatabase.getInstance().getReference();
+
+
+        dr.child("phoneNumbers").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot phoneDataSnapshot : dataSnapshot.getChildren()){
+                    phones.add(phoneDataSnapshot.getKey().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        ImageButton sendButton = findViewById(R.id.send);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SendAll send = new SendAll(phones, message.getText().toString());
+                send.sendAll();
+            }
+        });
+
 
 
         img = (ImageView)findViewById(R.id.map);
@@ -198,6 +229,8 @@ public class SendAlert extends AppCompatActivity {
 
         }
     };
+
+
 
 
 }

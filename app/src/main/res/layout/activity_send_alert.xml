@@ -54,4 +54,25 @@
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/warning" />
 
+    <ImageButton
+        android:id="@+id/send"
+        android:layout_width="59dp"
+        android:layout_height="54dp"
+        android:layout_alignEnd="@+id/warning"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="23dp"
+        android:background="@android:color/holo_red_light"
+        app:srcCompat="@drawable/sendimg" />
+
+    <EditText
+        android:id="@+id/messageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/send"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="59dp"
+        android:ems="10"
+        android:hint="Enter Message Here"
+        android:inputType="textPersonName" />
+
 </RelativeLayout>
