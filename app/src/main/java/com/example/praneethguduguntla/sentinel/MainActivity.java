@@ -13,8 +13,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Boolean isStudent = getIntent().getExtras().getBoolean("isStudent");
+
         ImageButton accountbutton = findViewById(R.id.accountinfo);
         ImageButton createAlert = findViewById(R.id.createAlert);
+
+        if(isStudent){
+            accountbutton.setVisibility(View.INVISIBLE);
+            createAlert.setVisibility(View.INVISIBLE);
+        } else {
+            accountbutton.setVisibility(View.VISIBLE);
+            createAlert.setVisibility(View.VISIBLE);
+        }
 
         accountbutton.setOnClickListener(new View.OnClickListener() {
             @Override
