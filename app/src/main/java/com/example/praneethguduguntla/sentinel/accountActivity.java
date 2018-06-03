@@ -1,30 +1,29 @@
 package com.example.praneethguduguntla.sentinel;
 
-import android.Manifest;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.SmsManager;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
-import android.support.design.widget.Snackbar;
-
-import java.util.ArrayList;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class accountActivity extends AppCompatActivity {
 
-
-    private static final int PERMISSIONS_SEND_SMS = 0;
-    private static final int PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
-    private View mLayout;
-    ArrayList<String> phoneNumbers = new ArrayList<String>();
+    private ListView students;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-    }
 
- }
+        students = (ListView) findViewById(R.id.students);
+        int num_users = 5;
+
+        String[] listItems = new String[num_users];
+
+        for(int i = 0; i < listItems.length; i++){
+            listItems[i] = "black and yellow";
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems);
+        students.setAdapter(adapter);
+    }
+}

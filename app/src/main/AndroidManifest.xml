@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".accountActivity" />
+        <activity android:name=".SendAlert" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SelectSchool"></activity>
         <activity android:name=".OnStartActivity"></activity>
     </application>
 
