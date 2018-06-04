@@ -27,6 +27,7 @@ public class accountActivity extends AppCompatActivity {
     private ListView students;
     private DatabaseReference databaseReference;
     ArrayList phoneNumbers= new ArrayList<>();
+    String currUser;
 
     FirebaseUser user;
 
@@ -44,6 +45,7 @@ public class accountActivity extends AppCompatActivity {
 //            listItems[i] = "black and yellow";
 //        }
         user = FirebaseAuth.getInstance().getCurrentUser();
+        currUser = user.getDisplayName();
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -54,7 +56,7 @@ public class accountActivity extends AppCompatActivity {
                 for(DataSnapshot numberDataSnapshot : dataSnapshot.getChildren()){
                     String phoneNumber = numberDataSnapshot.getKey().toString();
                     String school = numberDataSnapshot.getValue().toString();
-                    if(school.equals(user.getDisplayName())){
+                    if(school.equals(currUser)){
                         phoneNumbers.add(phoneNumber);
                     }
 
