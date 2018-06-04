@@ -27,7 +27,7 @@ public class OnStartActivity extends AppCompatActivity {
         studentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                Intent i = new Intent(getApplicationContext(), SelectSchool.class);
                 startActivity(i);
             }
         });

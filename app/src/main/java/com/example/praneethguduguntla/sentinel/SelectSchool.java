@@ -35,12 +35,12 @@ public class SelectSchool extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_school);
 
-        final Test fileReadWrite = new Test();
-        fileReadWrite.read();
-
-        if(fileReadWrite.isLoggedIn()){
-
-        } else {
+       // final Test fileReadWrite = new Test();
+//        fileReadWrite.read();
+//
+//        if(fileReadWrite.isLoggedIn()){
+//
+//        } else {
 
 
             schools = findViewById(R.id.schoolList);
@@ -65,7 +65,7 @@ public class SelectSchool extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             index = i;
-                            String schoolSelected = users.get(i).toString();
+                            final String schoolSelected = users.get(i).toString();
                             //                Toast.makeText(getApplicationContext(), schoolSelected, Toast.LENGTH_SHORT).show();
 
                             AlertDialog.Builder mBuilder = new AlertDialog.Builder(SelectSchool.this);
@@ -77,11 +77,12 @@ public class SelectSchool extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     databaseReference.child("phoneNumber").child(phoneNumber.getText().toString()).setValue(users.get(index).toString());
-                                    fileReadWrite.setLoggedIn(true);
-                                    fileReadWrite.setSchool(users.get(index).toString());
+//                                    fileReadWrite.setLoggedIn(true);
+//                                    fileReadWrite.setSchool(users.get(index).toString());
 
                                     Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                                     mainIntent.putExtra("isStudent", true);
+                                    mainIntent.putExtra("schoolName", schoolSelected);
                                     startActivity(mainIntent);
 
                                 }
@@ -121,7 +122,7 @@ public class SelectSchool extends AppCompatActivity {
 //        });
 
 //        Toast.makeText(getApplicationContext(), users.toString(), Toast.LENGTH_SHORT).show();
-        }
+//        }
 
     }
 }

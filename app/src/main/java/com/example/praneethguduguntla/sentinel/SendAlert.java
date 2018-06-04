@@ -12,7 +12,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,9 +30,8 @@ public class SendAlert extends AppCompatActivity {
     private float[] lastTouchXY = new float[2];
     private DatabaseReference mDatabase;
     private ArrayList<String> phones = new ArrayList<String>();
-    String currSchool = "Cupertino High School";
-
     ImageView warn;
+    String currSchool;
 
     boolean isSafe = false;
 
@@ -44,6 +46,11 @@ public class SendAlert extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         warn = (ImageView)findViewById(R.id.warning);
         safe = (ImageView)findViewById(R.id.safe);
+
+        currSchool = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+
+
+        Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT);
 
         warn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,36 +99,44 @@ public class SendAlert extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot d : dataSnapshot.child("Map Users").child(currSchool).getChildren()) {
-                    /*double x = (double)d.child("x").getValue();
-                    double y = (double)d.child("y").getValue();*/
-                    System.out.println(d.child("x").getValue() + " " + d.child("y").getValue());
-                    ImageView imageView = new ImageView(getApplicationContext());
 
-                    boolean childIsSafe = Boolean.parseBoolean((String)d.child("safe").getValue());
+                boolean hasAlerts = true;
+                if(!dataSnapshot.child("Map Users").exists()) {
+                    hasAlerts = false;
+                } else if(!dataSnapshot.child("Map Users").child(currSchool + "").exists()) {
+                    hasAlerts = false;
+                }
 
-                    if(!childIsSafe) {
-                        imageView.setImageResource(R.drawable.warning);
-                    } else {
-                        imageView.setImageResource(R.drawable.safe);
+                if(hasAlerts) {
+                    for (DataSnapshot d : dataSnapshot.child("Map Users").child(currSchool).getChildren()) {
+                        /*double x = (double)d.child("x").getValue();
+                        double y = (double)d.child("y").getValue();*/
+                        System.out.println(d.child("x").getValue() + " " + d.child("y").getValue());
+                        ImageView imageView = new ImageView(getApplicationContext());
+
+                        boolean childIsSafe = Boolean.parseBoolean((String) d.child("safe").getValue());
+
+                        if (!childIsSafe) {
+                            imageView.setImageResource(R.drawable.warning);
+                        } else {
+                            imageView.setImageResource(R.drawable.safe);
+                        }
+
+                        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.RelativeLayout);
+                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(70, 70);
+                        // use the coordinates for whatever
+                        relativeLayout.addView(imageView, layoutParams);
+
+                        float x = Float.parseFloat((String) d.child("x").getValue());
+                        float y = Float.parseFloat((String) d.child("y").getValue());
+
+
+                        imageView.setX(x + img.getX() - 35);
+                        imageView.setY(y + img.getY() - 35);
+                        timeTouch++;
+
+
                     }
-
-                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.RelativeLayout);
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(70, 70);
-                    // use the coordinates for whatever
-                    relativeLayout.addView(imageView, layoutParams);
-
-                    float x = Float.parseFloat((String)d.child("x").getValue());
-                    float y = Float.parseFloat((String)d.child("y").getValue());
-
-
-
-
-                    imageView.setX(x + img.getX() - 35);
-                    imageView.setY(y + img.getY() - 35);
-                    timeTouch++;
-
-
                 }
             }
 
@@ -170,7 +185,7 @@ public class SendAlert extends AppCompatActivity {
             // use the coordinates for whatever
             relativeLayout.addView(imageView, layoutParams);
 
-
+            Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT).show();
 
             imageView.setX(x/* - imageView.getMaxWidth() / 2*/ + v.getX() - 35);
             imageView.setY(y /*- imageView.getMaxHeight() / 2)*/ + v.getY() - 35);
