@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -70,11 +71,14 @@ public class SendAlert extends AppCompatActivity {
         DatabaseReference dr = FirebaseDatabase.getInstance().getReference();
 
 
-        dr.child("phoneNumbers").addListenerForSingleValueEvent(new ValueEventListener() {
+        dr.child("phoneNumber").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot phoneDataSnapshot : dataSnapshot.getChildren()){
-                    phones.add(phoneDataSnapshot.getKey().toString());
+                    if(phoneDataSnapshot.getValue().equals(currSchool)) {
+                        phones.add(phoneDataSnapshot.getKey().toString());
+                        Toast.makeText(getApplicationContext(), phoneDataSnapshot.getKey().toString(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -87,8 +91,24 @@ public class SendAlert extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 SendAll send = new SendAll(phones, message.getText().toString());
-                send.sendAll();
+
+
+                for(int i = 0; i < phones.size(); i++){
+                    try {
+                        Toast.makeText(getApplicationContext(), phones.get(i), Toast.LENGTH_SHORT).show();
+                        SmsManager smsManager = SmsManager.getDefault();
+                        Toast.makeText(getApplicationContext(), message.getText().toString(), Toast.LENGTH_SHORT).show();
+                        smsManager.sendTextMessage(phones.get(i), null, message.getText().toString(), null, null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+
+
             }
         });
 

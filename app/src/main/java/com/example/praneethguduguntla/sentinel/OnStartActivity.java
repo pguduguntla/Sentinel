@@ -1,6 +1,8 @@
 package com.example.praneethguduguntla.sentinel;
 
+import android.Manifest;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,8 @@ import android.widget.Button;
 public class OnStartActivity extends AppCompatActivity {
 
     private Button adminBtn, studentBtn;
+    private static final int PERMISSIONS_SEND_SMS = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +35,17 @@ public class OnStartActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        fixPermissions();
 
 
 
+    }
+
+
+    private void fixPermissions() {
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.SEND_SMS, Manifest.permission.READ_PHONE_STATE}, PERMISSIONS_SEND_SMS);
     }
 
 
