@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,11 +26,17 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseUser currSchoolUser;
 
+    ImageView safetyCircle;
+    ImageView indicator;
+    TextView textStatus;
+
     DatabaseReference mDatabase;
 
 
 
     String currSchool;
+
+    boolean schoolSafe = true;
 
     ImageView img;
 
@@ -38,14 +47,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ImageButton accountbutton = findViewById(R.id.accountinfo);
+        ImageButton createAlert = findViewById(R.id.createAlert);
+
+        textStatus = (TextView)findViewById(R.id.textStatus);
+        textStatus.setGravity(Gravity.CENTER);
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             currSchoolUser = FirebaseAuth.getInstance().getCurrentUser();
 
             currSchool = currSchoolUser.getDisplayName();
+
         } else {
             currSchool =  getIntent().getExtras().getString("schoolName");
+
+            createAlert.setVisibility(View.INVISIBLE);
+            accountbutton.setVisibility(View.INVISIBLE);
+
         }
 
         img = (ImageView)findViewById(R.id.map);
@@ -61,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
                      hasAlerts = false;
                  }
 
+                 textStatus.setGravity(Gravity.CENTER);
+
                  if(hasAlerts) {
+
                      for (DataSnapshot d : dataSnapshot.child("Map Users").child(currSchool).getChildren()) {
 
                          System.out.println(d.child("x").getValue() + " " + d.child("y").getValue());
@@ -71,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
 
                          if (!childIsSafe) {
                              imageView.setImageResource(R.drawable.warning);
+                             schoolSafe = false;
+                             safetyCircle = (ImageView)findViewById(R.id.safetyCircle);
+                             safetyCircle.setImageResource(R.drawable.redcircle);
+                             indicator = (ImageView)findViewById(R.id.safetyIndicator);
+                             indicator.setImageResource(R.drawable.checkplease);
+                             textStatus.setGravity(Gravity.CENTER);
+                             textStatus.setText("Danger on Campus");
+
                          } else {
                              imageView.setImageResource(R.drawable.safe);
                          }
@@ -98,6 +128,11 @@ public class MainActivity extends AppCompatActivity {
              }
          });
 
+
+        if(!schoolSafe) {
+
+        }
+
         reload = (ImageView)findViewById(R.id.reload);
 
         reload.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Boolean isStudent = getIntent().getExtras().getBoolean("isStudent");
 
-        ImageButton accountbutton = findViewById(R.id.accountinfo);
-        ImageButton createAlert = findViewById(R.id.createAlert);
+
 
         /*if(isStudent){
             accountbutton.setVisibility(View.INVISIBLE);
@@ -129,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                Intent accountIntent = new Intent(getApplicationContext(), accountActivity.class);
 //                startActivity(accountIntent);
-                Intent accountIntent = new Intent(getApplicationContext(), SelectSchool.class);
+                Intent accountIntent = new Intent(getApplicationContext(), accountActivity.class);
                 startActivity(accountIntent);
 
             }

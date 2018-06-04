@@ -51,7 +51,7 @@ public class SendAlert extends AppCompatActivity {
         currSchool = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
 
-        Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT);
+        //Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT);
 
         warn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +77,7 @@ public class SendAlert extends AppCompatActivity {
                 for(DataSnapshot phoneDataSnapshot : dataSnapshot.getChildren()){
                     if(phoneDataSnapshot.getValue().equals(currSchool)) {
                         phones.add(phoneDataSnapshot.getKey().toString());
-                        Toast.makeText(getApplicationContext(), phoneDataSnapshot.getKey().toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), phoneDataSnapshot.getKey().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -97,9 +97,9 @@ public class SendAlert extends AppCompatActivity {
 
                 for(int i = 0; i < phones.size(); i++){
                     try {
-                        Toast.makeText(getApplicationContext(), phones.get(i), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), phones.get(i), Toast.LENGTH_SHORT).show();
                         SmsManager smsManager = SmsManager.getDefault();
-                        Toast.makeText(getApplicationContext(), message.getText().toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), message.getText().toString(), Toast.LENGTH_SHORT).show();
                         smsManager.sendTextMessage(phones.get(i), null, message.getText().toString(), null, null);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -205,7 +205,7 @@ public class SendAlert extends AppCompatActivity {
             // use the coordinates for whatever
             relativeLayout.addView(imageView, layoutParams);
 
-            Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT).show();
 
             imageView.setX(x/* - imageView.getMaxWidth() / 2*/ + v.getX() - 35);
             imageView.setY(y /*- imageView.getMaxHeight() / 2)*/ + v.getY() - 35);
