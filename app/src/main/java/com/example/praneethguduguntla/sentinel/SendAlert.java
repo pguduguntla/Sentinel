@@ -36,6 +36,9 @@ public class SendAlert extends AppCompatActivity {
 
     boolean isSafe = false;
 
+
+    Button allClear;
+    Button threat;
     ImageView safe;
     ImageView img;
     TextView screen;
@@ -52,6 +55,8 @@ public class SendAlert extends AppCompatActivity {
 
 
         //Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT);
+        threat = (Button)findViewById(R.id.threat);
+        allClear = (Button)findViewById(R.id.allClear);
 
         warn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +114,36 @@ public class SendAlert extends AppCompatActivity {
 
 
 
+            }
+        });
+        allClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i = 0; i < phones.size(); i++){
+                    try {
+                        //Toast.makeText(getApplicationContext(), phones.get(i), Toast.LENGTH_SHORT).show();
+                        SmsManager smsManager = SmsManager.getDefault();
+                        //Toast.makeText(getApplicationContext(), message.getText().toString(), Toast.LENGTH_SHORT).show();
+                        smsManager.sendTextMessage(phones.get(i), null, "All clear!", null, null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        threat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i = 0; i < phones.size(); i++){
+                    try {
+                        //Toast.makeText(getApplicationContext(), phones.get(i), Toast.LENGTH_SHORT).show();
+                        SmsManager smsManager = SmsManager.getDefault();
+                        //Toast.makeText(getApplicationContext(), message.getText().toString(), Toast.LENGTH_SHORT).show();
+                        smsManager.sendTextMessage(phones.get(i), null, "Threat on campus!", null, null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
@@ -201,14 +236,14 @@ public class SendAlert extends AppCompatActivity {
             }
 
             RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.RelativeLayout);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(70, 70);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(62, 100);
             // use the coordinates for whatever
             relativeLayout.addView(imageView, layoutParams);
 
             //Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT).show();
 
-            imageView.setX(x/* - imageView.getMaxWidth() / 2*/ + v.getX() - 35);
-            imageView.setY(y /*- imageView.getMaxHeight() / 2)*/ + v.getY() - 35);
+            imageView.setX(x/* - imageView.getMaxWidth() / 2*/ + v.getX() - 31);
+            imageView.setY(y /*- imageView.getMaxHeight() / 2)*/ + v.getY() - 31);
             mDatabase.child("Map Users").child(currSchool).child("Point " + timeTouch).child("x").setValue((double)x + "f");
             mDatabase.child("Map Users").child(currSchool).child("Point " + timeTouch).child("y").setValue((double)y + "f");
             mDatabase.child("Map Users").child(currSchool).child("Point " + timeTouch).child("safe").setValue(isSafe + "");

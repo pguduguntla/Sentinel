@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                          }
 
                          ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.layout);
-                         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(70, 70);
+                         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(61, 100);
                          // use the coordinates for whatever
                          constraintLayout.addView(imageView, layoutParams);
 
@@ -114,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
                          float y = Float.parseFloat((String) d.child("y").getValue());
 
 
-                         imageView.setX(x + img.getX() - 35);
-                         imageView.setY(y + img.getY() - 35);
+                         imageView.setX(x + img.getX() - 31);
+                         imageView.setY(y + img.getY() - 31);
 
 
                      }
