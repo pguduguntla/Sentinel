@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                             DatabaseReference myRef = database.getReference();
 
 
-                            myRef.child("users").child("" + Math.round(Math.random() * 100)).setValue(uName).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
+                            myRef.child("users").child("" + Math.round(Math.random() * 10000000)).setValue(uName).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){

@@ -9,6 +9,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView indicator;
     TextView textStatus;
 
+
     DatabaseReference mDatabase;
 
 
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     String currSchool;
 
     boolean schoolSafe = true;
+
+    ListView presets;
 
     ImageView img;
 
@@ -47,11 +52,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         ImageButton accountbutton = findViewById(R.id.accountinfo);
         ImageButton createAlert = findViewById(R.id.createAlert);
 
         textStatus = (TextView)findViewById(R.id.textStatus);
         textStatus.setGravity(Gravity.CENTER);
+
+        presets = (ListView)findViewById(R.id.presets);
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null) {
 

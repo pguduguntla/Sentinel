@@ -20,10 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".accountActivity" />
-        <activity android:name=".SendAlert" />
+        <activity android:name=".SendAlert" android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SelectSchool"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".SelectSchool" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

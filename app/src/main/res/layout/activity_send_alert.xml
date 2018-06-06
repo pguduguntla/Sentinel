@@ -5,15 +5,13 @@
     android:id="@+id/RelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/border"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/clear"
@@ -31,8 +29,7 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/chsmap"
-        />
+        app:srcCompat="@drawable/chsmap" />
 
     <ImageView
         android:id="@+id/safe"
@@ -74,20 +71,26 @@
         android:hint="Enter Custom Message"
         android:inputType="textPersonName" />
 
-    <Button
-        android:id="@+id/allClear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/map"
-        android:layout_alignParentStart="true"
-        android:text='"All clear!"' />
+    <ListView
+        android:id="@+id/presets"
+        android:layout_width="183dp"
+        android:layout_height="102dp"
+        android:layout_alignTop="@+id/map"
+        android:layout_centerHorizontal="true">
 
-    <Button
-        android:id="@+id/threat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    </ListView>
+
+    <TextView
+        android:id="@+id/showPresets"
+        android:layout_width="183dp"
+        android:layout_height="56dp"
         android:layout_above="@+id/map"
-        android:layout_alignParentEnd="true"
-        android:text='"Threat on campus!"' />
+        android:layout_alignStart="@+id/clear"
+        android:layout_marginStart="-49dp"
+        android:background="@drawable/dropdown"
+        android:gravity="center_vertical"
+        android:text="Preset Messages"
+        android:textSize="18sp"
+        tools:textColor="@color/realBlack" />
 
 </RelativeLayout>

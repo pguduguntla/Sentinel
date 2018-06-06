@@ -7,23 +7,24 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SendAlert extends AppCompatActivity {
@@ -33,30 +34,79 @@ public class SendAlert extends AppCompatActivity {
     private ArrayList<String> phones = new ArrayList<String>();
     ImageView warn;
     String currSchool;
+    TextView border;
 
     boolean isSafe = false;
 
 
-    Button allClear;
-    Button threat;
+
     ImageView safe;
     ImageView img;
     TextView screen;
     Button clear;
+
+    ListView presets;
+    TextView showPresets;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_alert);
+
+        border = (TextView)findViewById(R.id.border);
+        border.setFocusableInTouchMode(true);
+        border.requestFocus();
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         warn = (ImageView)findViewById(R.id.warning);
         safe = (ImageView)findViewById(R.id.safe);
 
         currSchool = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
+        presets = (ListView)findViewById(R.id.presets);
+        presets.setVisibility(View.INVISIBLE);
+        presets.setBackgroundColor(getResources().getColor(R.color.white));
+
+        String[] options = new String[]{"Threat on campus!", "All clear!"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, options);
+        presets.setAdapter(adapter);
+        showPresets = (TextView)findViewById(R.id.showPresets);
+        showPresets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(presets.getVisibility() == View.INVISIBLE) {
+                    presets.setVisibility(View.VISIBLE);
+                    showPresets.setBackground(getResources().getDrawable(R.drawable.dropdownopen));
+                } else {
+                    presets.setVisibility(View.INVISIBLE);
+                    showPresets.setBackground(getResources().getDrawable(R.drawable.dropdown));
+                }
+            }
+        });
+        presets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(view != null) {
+                    String message = ((TextView)view).getText().toString();
+                    for (int i = 0; i < phones.size(); i++) {
+                        try {
+                            //Toast.makeText(getApplicationContext(), phones.get(i), Toast.LENGTH_SHORT).show();
+                            SmsManager smsManager = SmsManager.getDefault();
+                            //Toast.makeText(getApplicationContext(), message.getText().toString(), Toast.LENGTH_SHORT).show();
+                            smsManager.sendTextMessage(phones.get(i), null, message, null, null);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Toast.makeText(getApplicationContext(), "Message Sent", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         //Toast.makeText(getApplicationContext(), currSchool, Toast.LENGTH_SHORT);
-        threat = (Button)findViewById(R.id.threat);
-        allClear = (Button)findViewById(R.id.allClear);
+
 
         warn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,36 +166,7 @@ public class SendAlert extends AppCompatActivity {
 
             }
         });
-        allClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for(int i = 0; i < phones.size(); i++){
-                    try {
-                        //Toast.makeText(getApplicationContext(), phones.get(i), Toast.LENGTH_SHORT).show();
-                        SmsManager smsManager = SmsManager.getDefault();
-                        //Toast.makeText(getApplicationContext(), message.getText().toString(), Toast.LENGTH_SHORT).show();
-                        smsManager.sendTextMessage(phones.get(i), null, "All clear!", null, null);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        threat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for(int i = 0; i < phones.size(); i++){
-                    try {
-                        //Toast.makeText(getApplicationContext(), phones.get(i), Toast.LENGTH_SHORT).show();
-                        SmsManager smsManager = SmsManager.getDefault();
-                        //Toast.makeText(getApplicationContext(), message.getText().toString(), Toast.LENGTH_SHORT).show();
-                        smsManager.sendTextMessage(phones.get(i), null, "Threat on campus!", null, null);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+
 
 
 
@@ -211,7 +232,7 @@ public class SendAlert extends AppCompatActivity {
             }
         });
 
-        screen = (TextView)findViewById(R.id.border);
+        //screen = (TextView)findViewById(R.id.border);
         //img.setOnClickListener(clickListener);
         img.setOnClickListener(clickListener);
         img.setOnTouchListener(touchListener);
