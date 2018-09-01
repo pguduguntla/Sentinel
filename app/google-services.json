@@ -1,31 +1,58 @@
 {
   "project_info": {
-    "project_number": "172044471146",
-    "firebase_url": "https://sentinal-a0e88.firebaseio.com",
-    "project_id": "sentinal-a0e88",
-    "storage_bucket": "sentinal-a0e88.appspot.com"
+    "project_number": "500524843181",
+    "firebase_url": "https://sentineltest-b8715.firebaseio.com",
+    "project_id": "sentineltest-b8715",
+    "storage_bucket": "sentineltest-b8715.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:172044471146:android:e7f326f9f39fc817",
+        "mobilesdk_app_id": "1:500524843181:android:ce5c35875470fb7d",
+        "android_client_info": {
+          "package_name": "com.example.guydu.cloudbetatest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "500524843181-pk9km7tjulknk2a4b42j91s9sdmkq0od.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcgJZ8f7kylZmnLuslU5TQb5mmdpbELKw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500524843181:android:e7f326f9f39fc817",
         "android_client_info": {
           "package_name": "com.example.praneethguduguntla.sentinel"
         }
       },
       "oauth_client": [
         {
-          "client_id": "172044471146-0bvdafet3suic7acgg9klak7tnamqbov.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "172044471146-0bvdafet3suic7acgg9klak7tnamqbov.apps.googleusercontent.com",
+          "client_id": "500524843181-pk9km7tjulknk2a4b42j91s9sdmkq0od.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAAzuufBJO-M-I2-DW925QYmDRmDAQZMx0"
+          "current_key": "AIzaSyAcgJZ8f7kylZmnLuslU5TQb5mmdpbELKw"
         }
       ],
       "services": {

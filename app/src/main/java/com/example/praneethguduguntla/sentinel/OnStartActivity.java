@@ -1,12 +1,19 @@
 package com.example.praneethguduguntla.sentinel;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class OnStartActivity extends AppCompatActivity {
 
@@ -18,6 +25,8 @@ public class OnStartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_start);
+
+
 
         adminBtn = (Button) findViewById(R.id.ashish);
         adminBtn.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +45,24 @@ public class OnStartActivity extends AppCompatActivity {
             }
         });
         fixPermissions();
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            FirebaseAuth.getInstance().getCurrentUser().reload()
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    })
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.e("------>", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                        }
+                    });
+        }
 
 
 

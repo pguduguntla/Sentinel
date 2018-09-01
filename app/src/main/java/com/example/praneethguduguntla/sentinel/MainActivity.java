@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -51,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        if(FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Intent i = new Intent(getApplicationContext(), OnStartActivity.class);
+            startActivity(i);
+
+        } else {
+            Log.e("------->", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        }
 
 
 

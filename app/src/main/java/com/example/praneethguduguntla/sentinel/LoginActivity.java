@@ -23,9 +23,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //
 public class LoginActivity extends AppCompatActivity {
@@ -33,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText userName, emailField, userPassword;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore fs = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,13 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("nameOfSchool", userName.getText().toString());
+                map.put("messageList", new ArrayList<String>());
+                map.put("phoneNumberList", new ArrayList<String>());
+                map.put("Points", new ArrayList<ArrayList<Float>>());
+                fs.collection("Schools").document(userName.getText().toString()).set(map);
+
                 createUser(emailField.getText().toString(), userPassword.getText().toString(), userName.getText().toString());
 
 
